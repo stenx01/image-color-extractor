@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Image Color Extractor</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 30px; background: #f5f5f5; }
+        h1 { margin-bottom: 20px; }
+        form { margin-bottom: 30px; }
+        img { max-width: 400px; margin: 20px 0; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.2);}
+        .palette { display: flex; justify-content: center; flex-wrap: wrap; margin-top: 20px; }
+        .color-box { width: 120px; height: 120px; margin: 10px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: bold; cursor: pointer; position: relative; transition: transform 0.2s; }
+        .color-box:hover { transform: scale(1.1); }
+        .tooltip { position: absolute; bottom: 5px; font-size: 12px; background: rgba(0,0,0,0.5); padding: 2px 5px; border-radius: 3px; display: none; }
+        .color-box:hover .tooltip { display: block; }
+    </style>
+</head>
+<body>
+    <h1>Image Color Extractor</h1>
+    <form method="POST" enctype="multipart/form-data">
+        <input type="file" name="image" required>
+        <button type="submit">Upload</button>
+    </form>
+
+    {% if image_url %}
+        <h2>Uploaded Image</h2>
+        <img src="{{ image_url }}" alt="Uploaded Image">
+    {% endif %}
+
+    {% if colors %}
+        <h2>Top 10 Colors</h2>
+        <div class="palette">
+            {% for item in colors %}
+                <div class="color-box" style="background-color: {{ item.hex }}; color: {{ item.text_color }}" onclick="copyHex('{{ item.hex }}')">
+                    {{ item.hex }}
+                    <div class="tooltip">Click to copy</div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <script>
+        function copyHex(hex) {
+            navigator.clipboard.writeText(hex).then(() => {
+                alert(hex + " copied to clipboard!");
+            });
+        }
+    </script>
+</body>
+</html>
