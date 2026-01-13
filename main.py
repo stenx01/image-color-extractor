@@ -9,7 +9,6 @@ app = Flask(__name__)
 UPLOAD_FOLDER = 'uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-# Ensure upload folder exists
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 def rgb_to_hex(rgb):
@@ -27,7 +26,7 @@ def get_top_colors(image_path, top_n=10):
     result = []
 
     for color, count in top_colors:
-        # Convert uint8 to int to prevent overflow
+        #  uint8 to int to prevent overflow
         r, g, b = map(int, color)
         hex_color = rgb_to_hex((r, g, b))
         brightness = (r*299 + g*587 + b*114) / 1000
